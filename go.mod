@@ -1,3 +1,3 @@
-module github.com/ericfunktxgroup/nutriproject
+module github.com/psytraxx/nutriscore
 
 go 1.19
