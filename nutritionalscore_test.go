@@ -164,6 +164,43 @@ func TestGetNutritionalScore(t *testing.T) {
 			Negative  int
 			ScoreType ScoreType
 		}{Value: 15, Positive: 5, Negative: 20, ScoreType: Cheese}},
+
+		{name: "Steak", args: struct {
+			n  NutritionalData
+			st ScoreType
+		}{n: struct {
+			Energy              EnergyKJ
+			Sugars              SugarGram
+			SaturatedFattyAcids SaturatedFattyAcids
+			Sodium              SodiumMilligram
+			Fruits              FruitsPercent
+			Fiber               FiberGram
+			Protein             ProteinsGram
+			IsWater             bool
+		}{Energy: 179, Sugars: 0, SaturatedFattyAcids: 7.6, Sodium: 60, Fruits: 0, Fiber: 0, Protein: 26.0, IsWater: false}, st: Food}, want: struct {
+			Value     int
+			Positive  int
+			Negative  int
+			ScoreType ScoreType
+		}{Value: 2, Positive: 5, Negative: 7, ScoreType: Food}},
+		{name: "Apple", args: struct {
+			n  NutritionalData
+			st ScoreType
+		}{n: struct {
+			Energy              EnergyKJ
+			Sugars              SugarGram
+			SaturatedFattyAcids SaturatedFattyAcids
+			Sodium              SodiumMilligram
+			Fruits              FruitsPercent
+			Fiber               FiberGram
+			Protein             ProteinsGram
+			IsWater             bool
+		}{Energy: 104, Sugars: 20.8, SaturatedFattyAcids: 0.2, Sodium: 2, Fruits: 100, Fiber: 4.8, Protein: 0.5, IsWater: false}, st: Food}, want: struct {
+			Value     int
+			Positive  int
+			Negative  int
+			ScoreType ScoreType
+		}{Value: -6, Positive: 10, Negative: 4, ScoreType: Food}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -212,6 +249,19 @@ func TestNutritionalScore_GetNutriScore(t *testing.T) {
 			Negative  int
 			ScoreType ScoreType
 		}{Value: 15, Positive: 5, Negative: 20, ScoreType: Cheese}, want: "E"},
+
+		{name: "Steak", fields: struct {
+			Value     int
+			Positive  int
+			Negative  int
+			ScoreType ScoreType
+		}{Value: 2, Positive: 5, Negative: 7, ScoreType: Food}, want: "B"},
+		{name: "Apple", fields: struct {
+			Value     int
+			Positive  int
+			Negative  int
+			ScoreType ScoreType
+		}{Value: -6, Positive: 10, Negative: 4, ScoreType: Food}, want: "A"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
